@@ -4,11 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+import static ru.job4j.thread.WgetUtil.*;
 
 public class Wget implements Runnable {
     private final URL url;
@@ -37,31 +37,6 @@ public class Wget implements Runnable {
         wget.join();
     }
 
-    private static URL acquireUrl(String address) {
-        URL result;
-        try {
-            result = new URI(address).toURL();
-        } catch (URISyntaxException | MalformedURLException e) {
-            throw new IllegalArgumentException("Incorrect URL to download.", e);
-        }
-        return result;
-    }
-
-    private static int acquireSpeed(String speed) {
-        int result;
-        try {
-            result = Integer.parseInt(speed);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Incorrect argument for download speed.", e);
-        }
-        return result;
-    }
-
-    private static File acquireFile(URL url) {
-        String[] elements = url.getFile().split("/");
-        return Path.of(elements[elements.length - 1]).toFile();
-    }
-
     @Override
     public void run() {
         try (BufferedInputStream in = new BufferedInputStream(url.openStream());
@@ -70,12 +45,16 @@ public class Wget implements Runnable {
             int bytesRead;
             int bytesSaved = 0;
             int time = 1;
+            LocalDateTime start = LocalDateTime.now();
             while ((bytesRead = in.read(buffer, 0, buffer.length)) != -1) {
                 out.write(buffer, 0, bytesRead);
                 bytesSaved += bytesRead;
                 if (bytesSaved > speed * time) {
                     System.out.print("\rProcessed " + bytesSaved + " bytes for " + time + " sec.");
-                    Thread.sleep(1000);
+                    Thread.sleep(Duration.between(
+                            LocalDateTime.now(),
+                            start.plusSeconds(time)
+                                    ).toMillis());
                     time++;
                 }
             }
