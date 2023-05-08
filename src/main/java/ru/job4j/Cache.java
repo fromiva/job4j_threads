@@ -1,4 +1,4 @@
-package ru.job4j.atomicity;
+package ru.job4j;
 
 public class Cache {
     private static Cache cache;
