@@ -51,14 +51,15 @@ public class Wget implements Runnable {
                 bytesSaved += bytesRead;
                 if (bytesSaved > speed * time) {
                     System.out.print("\rProcessed " + bytesSaved + " bytes for " + time + " sec.");
-                    Thread.sleep(Duration.between(
+                    Thread.sleep(Long.max(0,
+                            Duration.between(
                             LocalDateTime.now(),
                             start.plusSeconds(time)
-                                    ).toMillis());
+                                    ).toMillis()));
                     time++;
                 }
             }
-            System.out.println("\rSaved to: " + file.getAbsolutePath());
+            System.out.println("\nSaved to: " + file.getAbsolutePath());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
