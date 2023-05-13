@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -140,5 +141,40 @@ class SimpleBlockingQueueTest {
         consumer2.join();
 
         assertThat(actual).containsAll(List.of(1, 2, 3, 4));
+    }
+
+    @Test
+    public void whenFetchAllThenGetIt() throws InterruptedException {
+        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
+        List<Integer> expected = List.of(1, 2, 3, 4, 5, 6);
+        final CopyOnWriteArrayList<Integer> actual = new CopyOnWriteArrayList<>();
+        Thread producer = new Thread(
+                () -> {
+                    try {
+                        for (Integer integer : expected) {
+                            queue.offer(integer);
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+        );
+        Thread consumer = new Thread(
+                () -> {
+                    while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
+                        try {
+                            actual.add(queue.pool());
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
+        );
+        producer.start();
+        consumer.start();
+        producer.join();
+        consumer.interrupt();
+        consumer.join();
+        assertThat(actual).containsAll(expected);
     }
 }
