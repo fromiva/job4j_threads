@@ -43,6 +43,8 @@ class CacheTest {
         newModel.setName("NewName");
         assertThat(cache.add(oldModel)).isTrue();
         assertThat(cache.update(newModel)).isTrue();
+        assertThat(newModel).isNotSameAs(cache.get(1));
+        assertThat(cache.get(1).getVersion()).isEqualTo(2);
         assertThat(cache.get(1).getName()).isEqualTo("NewName");
     }
 
