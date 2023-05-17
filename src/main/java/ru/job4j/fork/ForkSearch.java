@@ -37,8 +37,10 @@ public class ForkSearch<T> {
             if (end > LIMIT) {
                 RecursiveTask<Integer> left = new FindFirstTask(copyOfRange(array, start, middle), target);
                 RecursiveTask<Integer> right = new FindFirstTask(copyOfRange(array, middle, end), target);
-                int leftRes = left.fork().join();
-                int rightRes = right.fork().join();
+                left.fork();
+                right.fork();
+                int leftRes = left.join();
+                int rightRes = right.join();
                 res = leftRes != -1 ? leftRes : rightRes != -1 ? middle + rightRes : rightRes;
             } else {
                 for (int i = start; i < end; i++) {
