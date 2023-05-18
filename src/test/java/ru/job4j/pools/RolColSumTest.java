@@ -10,10 +10,10 @@ class RolColSumTest {
         int[][] matrix = new int[][]{
                 {1, 1},
                 {1, 1}};
-        RolColSum.Sums[] expected = new RolColSum.Sums[]{
-                new RolColSum.Sums(2, 2),
-                new RolColSum.Sums(2, 2)};
-        RolColSum.Sums[] actual = RolColSum.sum(matrix);
+        Sums[] expected = new Sums[]{
+                new Sums(2, 2),
+                new Sums(2, 2)};
+        Sums[] actual = RolColSum.sum(matrix);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -23,11 +23,11 @@ class RolColSumTest {
                 {1, 1, 2},
                 {1, 1, 2},
                 {1, 1, 3}};
-        RolColSum.Sums[] expected = new RolColSum.Sums[]{
-                new RolColSum.Sums(4, 3),
-                new RolColSum.Sums(4, 3),
-                new RolColSum.Sums(5, 7)};
-        RolColSum.Sums[] actual = RolColSum.sum(matrix);
+        Sums[] expected = new Sums[]{
+                new Sums(4, 3),
+                new Sums(4, 3),
+                new Sums(5, 7)};
+        Sums[] actual = RolColSum.sum(matrix);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -38,12 +38,12 @@ class RolColSumTest {
                 {1, 1, 2, 7},
                 {1, 1, 3, 9},
                 {1, 1, 5, 11}};
-        RolColSum.Sums[] expected = new RolColSum.Sums[]{
-                new RolColSum.Sums(9, 4),
-                new RolColSum.Sums(11, 4),
-                new RolColSum.Sums(14, 12),
-                new RolColSum.Sums(18, 32)};
-        RolColSum.Sums[] actual = RolColSum.sum(matrix);
+        Sums[] expected = new Sums[]{
+                new Sums(9, 4),
+                new Sums(11, 4),
+                new Sums(14, 12),
+                new Sums(18, 32)};
+        Sums[] actual = RolColSum.sum(matrix);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -52,10 +52,10 @@ class RolColSumTest {
         int[][] matrix = new int[][]{
                 {1, 1},
                 {1, 1}};
-        RolColSum.Sums[] expected = new RolColSum.Sums[]{
-                new RolColSum.Sums(2, 2),
-                new RolColSum.Sums(2, 2)};
-        RolColSum.Sums[] actual = RolColSum.asyncSum(matrix);
+        Sums[] expected = new Sums[]{
+                new Sums(2, 2),
+                new Sums(2, 2)};
+        Sums[] actual = RolColSum.asyncSum(matrix);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -65,11 +65,11 @@ class RolColSumTest {
                 {1, 1, 2},
                 {1, 1, 2},
                 {1, 1, 3}};
-        RolColSum.Sums[] expected = new RolColSum.Sums[]{
-                new RolColSum.Sums(4, 3),
-                new RolColSum.Sums(4, 3),
-                new RolColSum.Sums(5, 7)};
-        RolColSum.Sums[] actual = RolColSum.asyncSum(matrix);
+        Sums[] expected = new Sums[]{
+                new Sums(4, 3),
+                new Sums(4, 3),
+                new Sums(5, 7)};
+        Sums[] actual = RolColSum.asyncSum(matrix);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -80,12 +80,12 @@ class RolColSumTest {
                 {1, 1, 2, 7},
                 {1, 1, 3, 9},
                 {1, 1, 5, 11}};
-        RolColSum.Sums[] expected = new RolColSum.Sums[]{
-                new RolColSum.Sums(9, 4),
-                new RolColSum.Sums(11, 4),
-                new RolColSum.Sums(14, 12),
-                new RolColSum.Sums(18, 32)};
-        RolColSum.Sums[] actual = RolColSum.asyncSum(matrix);
+        Sums[] expected = new Sums[]{
+                new Sums(9, 4),
+                new Sums(11, 4),
+                new Sums(14, 12),
+                new Sums(18, 32)};
+        Sums[] actual = RolColSum.asyncSum(matrix);
         assertThat(actual).isEqualTo(expected);
     }
 

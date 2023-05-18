@@ -10,14 +10,7 @@ public class RolColSum {
         int size = matrix.length;
         Sums[] result = new Sums[size];
         for (int i = 0; i < size; i++) {
-            int rowSum = 0, colSum = 0;
-            for (int j = 0; j < size; j++) {
-                rowSum += matrix[i][j];
-            }
-            for (int j = 0; j < size; j++) {
-                colSum += matrix[j][i];
-            }
-            result[i] = new Sums(rowSum, colSum);
+            result[i] = getSums(matrix, i, size);
         }
         return result;
     }
@@ -42,17 +35,18 @@ public class RolColSum {
     private static CompletableFuture<Sums> getTask(int[][] matrix, int i) {
         return CompletableFuture.supplyAsync(() -> {
             int size = matrix.length;
-            int rowSum = 0, colSum = 0;
-            for (int j = 0; j < size; j++) {
-                rowSum += matrix[i][j];
-            }
-            for (int j = 0; j < size; j++) {
-                colSum += matrix[j][i];
-            }
-            return new Sums(rowSum, colSum);
+            return getSums(matrix, i, size);
         });
     }
 
-    public record Sums(int rowSum, int colSum) {
+    private static Sums getSums(int[][] matrix, int i, int size) {
+        int rowSum = 0, colSum = 0;
+        for (int j = 0; j < size; j++) {
+            rowSum += matrix[i][j];
+        }
+        for (int j = 0; j < size; j++) {
+            colSum += matrix[j][i];
+        }
+        return new Sums(rowSum, colSum);
     }
 }
