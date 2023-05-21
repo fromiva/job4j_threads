@@ -11,6 +11,6 @@ public class ForkSearch<T> {
     }
 
     public int findFirst(T target) {
-        return pool.invoke(new FindFirstTask(array, 0, array.length, target));
+        return pool.invoke(new FindFirstTask<>(array, 0, array.length, target));
     }
 }

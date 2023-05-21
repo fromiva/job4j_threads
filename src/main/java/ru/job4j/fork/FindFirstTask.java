@@ -3,30 +3,28 @@ package ru.job4j.fork;
 import java.util.Objects;
 import java.util.concurrent.RecursiveTask;
 
-class FindFirstTask extends RecursiveTask<Integer> {
+class FindFirstTask<T> extends RecursiveTask<Integer> {
     private final static int LIMIT = 10;
-    private final Object[] array;
+    private final T[] array;
     private final int rangeStart;
     private final int rangeEnd;
-    private final int rangeLength;
-    private final int rangeMiddle;
-    private final Object target;
+    private final T target;
 
-    public FindFirstTask(Object[] array, int rangeStart, int rangeEnd, Object target) {
+    public FindFirstTask(T[] array, int rangeStart, int rangeEnd, T target) {
         this.array = array;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeEnd;
-        rangeLength = rangeEnd - rangeStart;
-        rangeMiddle = rangeStart + rangeLength / 2;
         this.target = target;
     }
 
     @Override
     protected Integer compute() {
         int result = -1;
+        int rangeLength = rangeEnd - rangeStart;
+        int rangeMiddle = rangeStart + rangeLength / 2;
         if (rangeLength > LIMIT) {
-            RecursiveTask<Integer> left = new FindFirstTask(array, rangeStart, rangeMiddle, target);
-            RecursiveTask<Integer> right = new FindFirstTask(array, rangeMiddle, rangeEnd, target);
+            RecursiveTask<Integer> left = new FindFirstTask<>(array, rangeStart, rangeMiddle, target);
+            RecursiveTask<Integer> right = new FindFirstTask<>(array, rangeMiddle, rangeEnd, target);
             left.fork();
             right.fork();
             int leftResult = left.join();
